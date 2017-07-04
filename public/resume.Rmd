@@ -1,0 +1,68 @@
+---
+title: Résumé
+author: James Blair
+date: '2017-06-26'
+slug: resume
+categories: []
+tags: []
+images: ["/img/seo/resume_photo.jpg"]
+---
+
+## Professional Profile
+I'm a data scientist because I believe the universe around us communicates with countless signals. Some we can reliably measure, others we are still unaware of. However, understanding how to effectively capture, process, interpret, and understand those signals is critical to our progress both individually and collectively. I believe that at its very core, the role of a data scientist is to *improve the human experience* by increasing our understanding of one another and the universe. Because of this perspective, I'm passionate about data and the development and efficient use of tools for interpreting and making use of that data.
+
+## Competencies
+### Communication
+I've proven myself as both a capable writer and an enthusiastic and engaging speaker. I'm confident explaining complicated concepts in clear and concise terms and I'm as comfortable in front of the board as I am in front of my family. I'm always striving to improve my communication toolbox, from dynamic and intuitive visualizations to more engaging speaking practices.
+
+### Creativity
+I consider myself to be a highly creative individual. I enjoy tackling problems by finding clean, efficient solutions that age well. I think quickly on my feet and I have confidence in the ideas I come up with.
+
+### Machine Learning
+I'm comfortable with a large variety of algorithms and frameworks and have repeatably demonstrated the ability to quickly learn new techniques and technologies. I'm at home with the complete machine learning pipeline, from conceptualizing the problem to preparing and cleaning the data to developing initial models to evaluating model performance to moving the final models into stable production.
+
+## Skills
+#### R
+  * [tidyverse](http://tidyverse.org/)
+  * [shiny](https://shiny.rstudio.com/)
+  * [data.table](https://github.com/Rdatatable/data.table/wiki)
+  * [h2o](https://www.h2o.ai/)
+  * [mlr](https://mlr-org.github.io/mlr-tutorial/release/html/index.html)
+  
+#### Python
+#### SQL
+#### Unix
+#### Spark
+
+## Experience
+> 
+### Data Scientist | Front Analytics | March 2017 - Present
+- Developed end to end dynamic analytics reporting tools
+- Created robust data pipelines and improved data join logic
+- Presented key findings to company officers
+- Built dynamic data reports using R and Shiny
+>
+
+>
+### Business Analyst | Vivint.SmartHome | June 2016 - March 2017
+- Built end to end machine learning pipeline for predicting and understanding customer churn
+- Developed actionable programs built around segmented customer behavior
+- Created comprehensive customer profiles to guide marketing decisions
+- Introduced and supported key ML technologies
+>
+
+>
+### Data Science Intern | Tute Genomics | April 2015 - June 2016
+- Developed in-house analytics platform for visualizing and analyzing customer use data
+- Designed and implemented custom algorithm for computing customer health score
+- Implemented Google Analytics from the ground up
+>
+
+## Education
+>
+### MS, Data Science | [University of the Pacific](http://www.pacific.edu/Academics/Schools-and-Colleges/School-of-Engineering-and-Computer-Science/Academics-/Graduate-Programs/MS-in-Data-Science.html) | 2016 - 2018
+>
+
+>
+### BS, Statistics | [Brigham Young University](http://statistics.byu.edu/) | 2009 - 2016
+>

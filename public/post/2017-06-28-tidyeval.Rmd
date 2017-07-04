@@ -1,0 +1,94 @@
+---
+title: Rlang and Quosures and !!! Oh My!
+author: James Blair
+date: '2017-06-28'
+slug: tidyeval
+categories: []
+tags:
+  - R
+  - tidyverse
+  - SoDS17
+---
+
+```{r setup, include=FALSE}
+# knitr options
+knitr::opts_chunk$set(message = FALSE)
+
+# Packages
+library(tidyverse)
+
+# Set ggplot theme
+theme_set(hrbrthemes::theme_ipsum())
+```
+
+I've noticed a lot of recent discussion around the latest version of [`dplyr`](http://dplyr.tidyverse.org/) and it's reliance on the [tidyeval](http://rlang.tidyverse.org/articles/tidy-evaluation.html) framework. In fact, twitter has been flooded with recent references to tidyeval.
+
+<blockquote class="twitter-tweet" data-lang="en" align="center"><p lang="en" dir="ltr">Tis the season when many of us are coming to terms with <a href="https://twitter.com/hashtag/tidyeval?src=hash">#tidyeval</a> and feel the need to tell you about it. It&#39;s like CrossFit for <a href="https://twitter.com/hashtag/rstats?src=hash">#rstats</a>! 😉 <a href="https://t.co/CcmFteTc6l">https://t.co/CcmFteTc6l</a></p>&mdash; Jenny Bryan (@JennyBryan) <a href="https://twitter.com/JennyBryan/status/880114049475682305">June 28, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-lang="en" align="center"><p lang="en" dir="ltr">😂😂😂 I broke R. <a href="https://t.co/AWx3Yq2Km2">pic.twitter.com/AWx3Yq2Km2</a></p>&mdash; Julia Silge (@juliasilge) <a href="https://twitter.com/juliasilge/status/880493031924809728">June 29, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet" data-lang="en" align="center"><p lang="en" dir="ltr">enquo() is dark magic</p>&mdash; Richie Cotton (@richierocks) <a href="https://twitter.com/richierocks/status/880550984518311937">June 29, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+I've been a `dplyr` fan in the past but I must admit I rely mainly on `data.table` for my day to day data manipulation needs. However, the fact that `dplyr` interfaces so nicely with multiple backends (specifically [Spark](http://spark.rstudio.com/dplyr.html)) provides me with a compelling reason to keep up with it. That and the fact that my boss exclussively opperates in the [tidyverse](http://tidyverse.org). I also appreciate the syntactic sugar that comes free of charge with `dplyr`.
+
+With the release of [`dplyr 0.7.0`](https://blog.rstudio.org/2017/06/13/dplyr-0-7-0/) (formerly `dplyr 0.6.0`) there was a major shift to the mechanics driving `dplyr's` Non Standard Evaluation (NSE). These updated mechanics are based solely on tidyeval principles based on functions contained in the [`rlang`](http://rlang.tidyverse.org/#overview) package. As explained in the tidy-evaluation vignette (`vignette("tidy-evaluation", package = "rlang")`) there are three 
+
+To explore and experiment with the use of tidyeval principles in dplyr we'll use the `storms` dataset that ships with the most recent version of `dplyr`.
+
+```{r load storms data}
+# Load storms data
+data(storms)
+
+# Preview data
+dim(storms)
+head(storms)
+```
+
+This dataset functions like a transactional log of tropical storms detailing data about individual storms at different time points. To get a taste of some typical `dplyr` operations let's perform some EDA on the data. First we'll just look at the distribution of record counts for each storm (how many entries exist for a given storm).
+```{r}
+# Distribution of record counts
+storms %>% 
+  group_by(name) %>% 
+  count() %>% 
+  ggplot(aes(x = n)) +
+  geom_histogram() +
+  labs(title = "Record frequencies",
+       x = "Record Count", 
+       y = "Frequency")
+```
+
+Now, let's figure out the maximum windspeed for each storm. Then, to make things interesting, let's calculate the number of days after the first record that the maximum windspeed was recorded.
+```{r}
+# storms %>% 
+#   mutate(date = as.Date(paste(month, day, year, collapse = "/")))
+#   group_by(name) %>% 
+#   summarise(max_windspeed = max(wind),
+#             days = difftime(date[which.max(wind)], min(date)))
+```
+
+Now let's create an example where we can take advantage of the tidyeval framework. One common usecase I frequently come across is using `dplyr` in shiny applications. Often, I want some calculations to occur based on some form of user input. As an example, let's say that I have a shiny application with an input that allows the user to select one or more valid columns in the data set. Based on the selected columns, several summary statistics are computed for each column.
+
+```{r}
+# Possible user choices
+user_choices <- c("wind", "pressure")
+names(user_choices) <- toupper(user_choices)
+
+# Actual user input values
+user_input <- c("pressure", "wind")
+user_input_named <- user_choices[user_choices %in% user_input]
+
+# Grouped storms by name
+grouped_storms <- storms %>% 
+  group_by(name)
+
+# Calculate the mean and max for each column provided in user_input_named
+grouped_storms %>% 
+  summarise_at(user_input_named, funs(my_mean = mean, max, my_fun = sum(.)/length(.)))
+
+```
+
+
+

@@ -1,0 +1,76 @@
+baseurl = "https://batteriesnotincluded-dev.netlify.com/"
+languageCode = "en-us"
+title = "Batteries Not Included"
+theme = "blackburn"
+author = "James Blair"
+copyright = "&copy; 2017. All rights reserved."
+canonifyurls = true
+paginate = 5
+
+[indexes]
+  tag = "tags"
+  topic = "topics"
+
+[params]
+  # Shown in the home page
+  subtitle = "IID observations from a universe of data"
+  googleAnalytics = "UA-102003942-1"
+  # CSS name for highlight.js
+  highlightjs = "atom-one-dark"
+  dateFormat = "02 Jan 2006"
+
+[menu]
+  # Shown in the side menu.
+  # [[menu.main]]
+  #  name = "Home"
+  #  pre = "<i class='fa fa-home fa-fw'></i>"
+  #  weight = 0
+  #  identifier = "home"
+  #  url = "/"
+  [[menu.main]]
+    name = "Posts"
+    pre = "<i class='fa fa-list fa-fw'></i>"
+    weight = 1
+    identifier = "post"
+    url = "/post/"
+  # [[menu.main]]
+  #  name = "Topics"
+  #  pre = "<i class='fa fa-folder fa-fw'></i>"
+  #  weight = 3
+  #  identifier = "topic"
+  #  url = "/topics/"
+  [[menu.main]]
+    name = "Tags"
+    pre = "<i class='fa fa-tags fa-fw'></i>"
+    weight = 2
+    identifier = "tag"
+    url = "/tags/"
+  [[menu.main]]
+    name = "About"
+    pre = "<i class='fa fa-user fa-fw'></i>"
+    weight = 3
+    identifier = "about"
+    url = "/about/"
+  [[menu.main]]
+    name = "Résumé"
+    pre = "<i class='fa fa-file-text fa-fw'></i>"
+    weight = 4
+    identifier = "resume"
+    url = "/resume/"
+  # [[menu.main]]
+  #  name = "Contact"
+  #  pre = "<i class='fa fa-phone-square fa-fw'></i>"
+  #  weight = 5
+  # identifier = "contact"
+  #  url = "/contact/"
+
+[social]
+  # Link your social networking accouns to the side menu
+  # by entering your username or ID.
+  twitter = "Blair09M"
+  linkedin = "blairjm"
+  github = "blairj09"
+  email = "james.m.blair09@gmail.com"
+  
+[permalinks]
+    post = "post/:year/:month/:slug/"

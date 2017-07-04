@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Deep Learning on Batteries Not Included</title>
+    <link>/tags/deep-learning/</link>
+    <description>Recent content in Deep Learning on Batteries Not Included</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2017. All rights reserved.</copyright>
+    <lastBuildDate>Mon, 26 Jun 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/deep-learning/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Summer of Data Science 2017</title>
+      <link>/post/2017/06/summer-of-data-science-2017/</link>
+      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/2017/06/summer-of-data-science-2017/</guid>
+      <description>I first learned of #SoDS17 through Mara Averick and was further enlighted by Data Science Renee&amp;rsquo;s tweet
+Here&amp;#39;s how to participate in the Summer of Data Science #SoDS17:
+&amp;mdash; Data Science Renee (@BecomingDataSci) May 29, 2017 
+and accompanying blog post. As described, the basic premis is simple: set a goal to learn something new in the broad data science domain and make an effort to share the journey with others.</description>
+    </item>
+    
+  </channel>
+</rss>

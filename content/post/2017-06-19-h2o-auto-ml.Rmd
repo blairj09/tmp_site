@@ -1,0 +1,95 @@
+---
+title: h2o Auto ML
+author: James Blair
+date: '2017-06-19'
+tags:
+  - R
+  - h2o
+  - machine learning
+slug: h2o-auto-ml
+draft: true
+---
+
+```{r setup, echo=FALSE}
+# Knitr options
+# knitr::opts_chunk$set(echo = FALSE)
+```
+
+I've seen a lot of buzz recently on Twitter revolving around the concept of AutoML. Essentaily, the automation of data preprocessing, model generation and, in same cases, feature engineering. I remember attending the [H2O Open Tour](http://open.h2o.ai/dallas.html) last year and being totally riveted listening to Ray Peck outline the [AutoML roadmap](https://www.slideshare.net/0xdata/h2o-automl-roadmap-ray-peck) for h2o. This sounds like exciting, almost magical stuff with the ideal seemingly being as simple as providing the software with the data, pushing a button, enjoying a nice afternoon off, and seeing what model resulted the next morning. Well, AutoML is finally available in [h2o.ai](http://h2o-release.s3.amazonaws.com/h2o/rel-vapnik/1/index.html) so I thought I would take it for a test drive. My main idea here is to do a simple and straightforward evaluation:
+
+* Give myself one hour to create the best model I possibly can based on [Kaggle's Titanic dataset](https://www.kaggle.com/c/titanic/data)
+* Give the raw data to AutoML and see what the best model is after an hour
+
+As with any machine learning problem, the definition of *best* is dependent on the evaluation metric of the models. In this particular case, I'll be using [Log Loss](https://www.kaggle.com/wiki/LogLoss) as the evaluation criteria. 
+
+Before we get started, we'll set up our R environment with the necessary packages.
+
+```{r packages, message=FALSE}
+# Load packages
+library(data.table)
+library(magrittr)
+library(h2o)
+```
+
+Now, we'll load the data into R.
+
+```{r data}
+train <- fread("../../data/titanic/train.csv")
+test <- fread("../../data/titanic/test.csv")
+```
+
+Now that the data is loaded we're ready to rock and roll. First, I'll spend my hour creating my optimal model. Then, I'll give the `h2o.automl()` and hour to find the best model it can using only the data provided by Kaggle (I'm not going to expose it to any features or transformations I initiate during my modeling process). Then, we'll compare the two models using *Log Loss* as previously described.
+
+### My Model
+
+```{r}
+dim(train)
+names(train)
+
+# Missingness
+
+```
+
+## Modeling
+```{r, eval=FALSE}
+# Initialize h2o
+h2o.init()
+
+# Move data to h2o
+train_h <- h2o.importFile("/Users/jamesblair/Dropbox/Datascience/batteries_not_included/content/data/titanic/train.csv",
+                          destination_frame = "train_h")
+test_h <- h2o.importFile("/Users/jamesblair/Dropbox/Datascience/batteries_not_included/content/data/titanic/test.csv", 
+                         destination_frame = "test_h")
+
+train_h[,'Survived'] <- h2o.asfactor(train_h[,'Survived'])
+
+# Define features
+features <- c(
+  "Pclass",
+  "Sex",
+  "Age",
+  "SibSp",
+  "Parch",
+  "Ticket",
+  "Fare",
+  "Cabin",
+  "Embarked"
+)
+
+# Define target
+y <- "Survived"
+
+# AutoML
+auto_ml <- h2o.automl(
+  x = features,
+  y = y,
+  training_frame = train_h,
+  project_name = "titanic",
+  max_runtime_secs = 60 * 60,
+  stopping_metric = "logloss"
+)
+
+auto_ml
+```
+
+### AutoML
