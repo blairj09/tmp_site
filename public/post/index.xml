@@ -8,9 +8,7 @@
     <language>en-us</language>
     <copyright>&amp;copy; 2017. All rights reserved.</copyright>
     <lastBuildDate>Mon, 26 Jun 2017 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://batteriesnotincluded-dev.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="https://batteriesnotincluded-dev.netlify.com/post/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Summer of Data Science 2017</title>
@@ -18,10 +16,51 @@
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>https://batteriesnotincluded-dev.netlify.com/post/2017/06/summer-of-data-science-2017/</guid>
-      <description>I first learned of #SoDS17 through Mara Averick and was further enlighted by Data Science Renee&amp;rsquo;s tweet
-Here&amp;#39;s how to participate in the Summer of Data Science #SoDS17:
-&amp;mdash; Data Science Renee (@BecomingDataSci) May 29, 2017 
-and accompanying blog post. As described, the basic premis is simple: set a goal to learn something new in the broad data science domain and make an effort to share the journey with others.</description>
+      <description>
+
+&lt;p&gt;I first learned of &lt;a href=&#34;https://twitter.com/search?q=%23SoDS17&amp;amp;src=tyah&#34;&gt;&lt;strong&gt;#SoDS17&lt;/strong&gt;&lt;/a&gt; through &lt;a href=&#34;https://twitter.com/dataandme&#34;&gt;Mara Averick&lt;/a&gt; and was further enlighted by &lt;a href=&#34;https://twitter.com/BecomingDataSci&#34;&gt;Data Science Renee&amp;rsquo;s&lt;/a&gt; tweet&lt;/p&gt;
+
+&lt;p&gt;&lt;blockquote class=&#34;twitter-tweet&#34; data-lang=&#34;en&#34; align=&#34;center&#34;&gt;&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;Here&amp;#39;s how to participate in the Summer of Data Science &lt;a href=&#34;https://twitter.com/hashtag/SoDS17?src=hash&#34;&gt;#SoDS17&lt;/a&gt;:&lt;/p&gt;&amp;mdash; Data Science Renee (@BecomingDataSci) &lt;a href=&#34;https://twitter.com/BecomingDataSci/status/869240476892835840&#34;&gt;May 29, 2017&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;//platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;and accompanying &lt;a href=&#34;https://www.becomingadatascientist.com/2017/05/29/summer-of-data-science-2017/&#34;&gt;blog post&lt;/a&gt;. As described, the basic premis is simple: set a goal to learn something new in the broad data science domain and make an effort to share the journey with others. As far as specific rules, Renee provides the following 3:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Pick a thing or a short list of things related to data science that you want to learn more about this summer.&lt;/li&gt;
+&lt;li&gt;Make a plan to learn it (like an online course, a practice project, etc.).&lt;/li&gt;
+&lt;li&gt;Share that plan on social media, then post updates as you make progress, with the hashtag #SoDS17.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The main idea of &lt;strong&gt;#SoDS17&lt;/strong&gt; is simple and the rules are straightforward. In my opinion, that&amp;rsquo;s what makes this idea so fantastic - it allows me to pick &lt;em&gt;a few&lt;/em&gt; things I really want to focus on. Then I commit to accountability by sharing my goals publicly. This seems like a much better approach than my Trello board filled with an overwhelming number of loosely defined data science goals for myself. So, I&amp;rsquo;m going to give &lt;strong&gt;#SoDS17&lt;/strong&gt; a shot.&lt;/p&gt;
+
+&lt;h2 id=&#34;my-goals&#34;&gt;My goals&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Establish an online voice
+
+&lt;ul&gt;
+&lt;li&gt;Create a blog on &lt;a href=&#34;https://support.rbind.io/about/&#34;&gt;rbind.io&lt;/a&gt; and &lt;em&gt;regularly update it&lt;/em&gt; (regularly updating entails at least once a month)&lt;/li&gt;
+&lt;li&gt;Since this post is part of said blog, the first part of this goal has successfully been completed&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Get better at the &lt;a href=&#34;http://tidyverse.org/&#34;&gt;tidyverse&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;While this seems like a rather broad goal (and it kind of is) I&amp;rsquo;ve done my best to narrow it down to a few actionable and reportable items:&lt;/li&gt;
+&lt;li&gt;Read &lt;a href=&#34;http://r4ds.had.co.nz&#34;&gt;&lt;em&gt;R for Data Science&lt;/em&gt;&lt;/a&gt; and blog about what I&amp;rsquo;ve learned with each chapter&lt;/li&gt;
+&lt;li&gt;Watch related tidyverse sessions from &lt;a href=&#34;https://www.rstudio.com/conference/&#34;&gt;rstudio::conf&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Build my own deep learning model in R using Keras
+
+&lt;ul&gt;
+&lt;li&gt;I&amp;rsquo;ve been intrigued by deep learning for a while now. Every time I hear &lt;a href=&#34;https://twitter.com/bentaylordata&#34;&gt;Ben Taylor&lt;/a&gt; speak it get&amp;rsquo;s me all excited and motivated to learn all over again. However, my prior justification for not diving in has been &amp;ldquo;But&amp;hellip; Python&amp;hellip;&amp;rdquo;. With the relase of &lt;a href=&#34;https://rstudio.github.io/keras/&#34;&gt;Keras for R&lt;/a&gt; I can no longer lean on that crutch so it&amp;rsquo;s time to take the dive.&lt;/li&gt;
+&lt;li&gt;To help me wrap my head around the concepts and theory behind deep learning, I&amp;rsquo;m going to read the &lt;a href=&#34;http://www.deeplearningbook.org/&#34;&gt;Deep Learning Book&lt;/a&gt; and blog about it&lt;/li&gt;
+&lt;li&gt;Once I feel ready to dive in, I&amp;rsquo;ll create my own network (Using R + Keras) and publish a blog post about it
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;So, there they are - my 3 &lt;strong&gt;#SoDS17&lt;/strong&gt; goals. Now that they&amp;rsquo;ve been released into the wild, it&amp;rsquo;s time to be serious about them. Feel free to follow up on my progress through &lt;a href=&#34;https://twitter.com/Blair09M&#34;&gt;twitter&lt;/a&gt; or &lt;a href=&#34;https://batteriesnotincluded.rbind.io/&#34;&gt;here&lt;/a&gt; on my blog. I&amp;rsquo;m looking forward to what I can accomplish this summer and sharing the journey with any who are interested.&lt;/p&gt;
+</description>
     </item>
     
   </channel>
