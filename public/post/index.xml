@@ -2,59 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Batteries Not Included</title>
-    <link>/post/</link>
+    <link>https://batteriesnotincluded-dev.netlify.com/post/</link>
     <description>Recent content in Posts on Batteries Not Included</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017. All rights reserved.</copyright>
-    <lastBuildDate>Wed, 28 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 26 Jun 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://batteriesnotincluded-dev.netlify.com/post/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Rlang and Quosures and !!! Oh My!</title>
-      <link>/post/2017/06/tidyeval/</link>
-      <pubDate>Wed, 28 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/2017/06/tidyeval/</guid>
-      <description>I’ve noticed a lot of recent discussion around the latest version of dplyr and it’s reliance on the tidyeval framework. In fact, twitter has been flooded with recent references to tidyeval.
-Tis the season when many of us are coming to terms with #tidyeval and feel the need to tell you about it. It&#39;s like CrossFit for #rstats! 😉 https://t.co/CcmFteTc6l — Jenny Bryan (@JennyBryan) June 28, 2017   😂😂😂 I broke R.</description>
-    </item>
-    
-    <item>
-      <title>AWS, RStudio, and h2o - Heaven on Earth</title>
-      <link>/post/2017/06/aws-rstudio-h2o/</link>
-      <pubDate>Tue, 27 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/2017/06/aws-rstudio-h2o/</guid>
-      <description>Some title Analysis This is the analysis1
- Making of This is the making of
-x &amp;lt;- rnorm(500)   Math \(f(x)=7\)
-\[f(x) = g(\bar{x})\]
-  this is a footnote↩
-   </description>
-    </item>
     
     <item>
       <title>Summer of Data Science 2017</title>
-      <link>/post/2017/06/summer-of-data-science-2017/</link>
+      <link>https://batteriesnotincluded-dev.netlify.com/post/2017/06/summer-of-data-science-2017/</link>
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/2017/06/summer-of-data-science-2017/</guid>
+      <guid>https://batteriesnotincluded-dev.netlify.com/post/2017/06/summer-of-data-science-2017/</guid>
       <description>I first learned of #SoDS17 through Mara Averick and was further enlighted by Data Science Renee&amp;rsquo;s tweet
 Here&amp;#39;s how to participate in the Summer of Data Science #SoDS17:
 &amp;mdash; Data Science Renee (@BecomingDataSci) May 29, 2017 
 and accompanying blog post. As described, the basic premis is simple: set a goal to learn something new in the broad data science domain and make an effort to share the journey with others.</description>
-    </item>
-    
-    <item>
-      <title>h2o Auto ML</title>
-      <link>/post/2017/06/h2o-auto-ml/</link>
-      <pubDate>Mon, 19 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/2017/06/h2o-auto-ml/</guid>
-      <description>I’ve seen a lot of buzz recently on Twitter revolving around the concept of AutoML. Essentaily, the automation of data preprocessing, model generation and, in same cases, feature engineering. I remember attending the H2O Open Tour last year and being totally riveted listening to Ray Peck outline the AutoML roadmap for h2o. This sounds like exciting, almost magical stuff with the ideal seemingly being as simple as providing the software with the data, pushing a button, enjoying a nice afternoon off, and seeing what model resulted the next morning.</description>
     </item>
     
   </channel>
