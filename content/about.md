@@ -6,6 +6,7 @@ slug: about
 categories: []
 tags: []
 images: ["/img/family.jpg"]
+type: "about"
 ---
 
 ## Me
