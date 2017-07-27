@@ -1,0 +1,396 @@
+---
+title: Scraping Friends
+author: James Blair
+date: '2017-07-18'
+slug: friends
+categories: []
+tags:
+  - R
+  - SoDS17
+  - tidyverse
+---
+```{r setup, include=FALSE, echo = FALSE}
+# knitr options
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r packages}
+# Packages
+library(tidyverse)
+library(rvest)
+library(tidytext)
+library(stringr)
+library(magrittr)
+library(roxygen2)
+```
+
+```{r utils}
+# Define helpful functions
+scrape_script <- function(xml_node){
+  # Scrapes provided url and returns a tibble containing metadata and html_data
+  #
+  # Args:
+  #  xml_node: xml_nodeset from rvest
+  #
+  # Returns:
+  #  data.frame with the following columns:
+  #    - season_num
+  #    - episode_num
+  #    - episode_title
+  #    - html_data
+  
+  # Set url for scraping
+  relative_url <- html_attr(xml_node, "href")
+  url <- glue::glue("http://www.livesinabox.com/friends/{relative_url}")
+  
+  # Debugging
+  print(url)
+  
+  # Read html
+  html_data <- read_html(url)
+  
+  # Season and episode number
+  episode_title <- xml_node %>% 
+    html_text %>% 
+    str_replace_all('[\\n\\"\\"\\t]',
+                    "") %>% 
+    str_replace_all("[ ]+",
+                    " ")
+  
+  season_episode <- str_extract(episode_title, 
+                                "[0-9]{3,}") %>% 
+    as.numeric
+  
+  season_num <- season_episode %/% 100
+  episode_num <- season_episode %% 100
+  
+  # Clean episode title
+  episode_title <- str_replace_all(episode_title,
+                                   "^E\\w+ [0-9]{3,}: | \\([0-9]\\)",
+                                   "")
+  
+  # Final tibble output
+  tibble(season_num,
+         episode_num,
+         episode_title,
+         html_data = list(html_data))
+}
+
+parse_script <- function(html_data, title = NULL){
+  # Parse html reference into dataframe with speaker and line columns
+  #
+  # Input:
+  #  html_data: html reference to be parsed
+  #  title: used for debugging and knowing which file is currently being parsed
+  #
+  # Returns:
+  #  dataframe with speaker and line columns
+  
+  # Print title if provided
+  if(!is.null(title)){
+    print(title)
+  }
+  
+  # Extract script
+  script <- html_nodes(html_data, "p") %>% 
+    html_text()
+  
+  # Sepcial case for Season 9 episode 7
+  if(length(script) == 0){
+    script <- html_nodes(html_data, "pre") %>% 
+      html_text()
+  }
+  
+  # Handle times when script isn't broken out by lines
+  if(length(script) < 20){
+    # Collapse script into single character vector
+    script <- str_c(script, collapse = " ")
+    
+    # Remove new line characters
+    script %<>% str_replace_all("[::punct::]?\\n",
+                                ". ")
+    
+    # Remove non dialogue
+    script %<>% str_replace_all('\\"|\\((.*?)\\)|\\[(.*?)\\]',
+                                "")
+    
+    # Identify speaker name
+    speaker <- script %>% 
+      str_extract_all("([MD][A-Za-z]{1,2}\\. )?[A-Z]{1}[\\w ]+: ") %>% 
+      unlist %>% 
+      str_replace_all("[\\n:]",
+                      "")
+    
+    # Identify the lines
+    script %<>% str_split("([MD][A-Za-z]{1,2}\\. )?[A-Z]{1}[\\w ]+: ") %>%
+      unlist
+    
+    if(length(script) != length(speaker)){
+      script <- script[-1]
+    }
+    
+   
+  } else {
+    # Identify dialogue lines
+    script <- script[str_detect(script, "^[\\w\\. ]+:")]
+    
+    # Remove new line characters
+    script %<>% str_replace_all("\\n",
+                                " ")
+    # Remove:
+    #  escaped quotes
+    #  text in parantheses (not dialogue)
+    #  text in square brackets
+    script %<>% str_replace_all('\\"|\\(.*\\)|\\[(.*?)\\]',
+                                "")
+    
+    # Identify speaker for each line
+    speaker <- str_extract(script,
+                           "^[\\w\\. ]+:") %>% 
+      str_replace(":",
+                  "")
+    
+    # Remove speaker from script
+    script %<>% str_replace("^[\\w\\. ]+:",
+                            "")
+  }
+  
+  # Clean up any unnecessary white space
+  speaker %<>% str_trim()
+  script %<>% str_trim()
+  
+  # Create dataframe
+  tibble(speaker,
+         line = script)
+}
+```
+
+```{r data}
+if(file.exists("../../data/friends/friends_htmls.Rds") & FALSE){
+  # Note - currently difficult to save and read data scraped with rvest
+  # see https://github.com/hadley/rvest/issues/181
+  friends_htmls <- readRDS("../../data/friends/friends_htmls.Rds")
+} else {
+  # Scrape  ----
+  # Page with links to all episode scripts
+  base_url <- "http://www.livesinabox.com/friends/scripts.shtml"
+  base_html <- read_html(base_url)
+  
+  # Extract nodes related to episodes
+  episode_nodes <- base_html %>% 
+    html_nodes("a")
+  
+  # Filter nodes to only episodes
+  episode_urls <- episode_nodes %>% 
+    html_attr("href")
+  
+  episode_nodes <- episode_nodes[str_detect(episode_urls,
+                                            "\\d{3,}") &
+                                   !duplicated(episode_urls)]
+  
+  # Scrape episodes and put in dataframe
+  friends_htmls <- map_df(episode_nodes,
+                          scrape_script)
+  
+  # Save .RDS file
+  # saveRDS(friends_htmls,
+  #         file = "../../data/friends/friends_htmls.Rds")
+}
+```
+
+```{r parse scripts}
+# Test wacky html formatting
+friends_htmls %>% 
+  filter(season_num == 2,
+         episode_num == 12) %$%
+  html_data %>% 
+  .[[1]] -> html_data
+
+# Parse scripts ----
+friends_scripts <- friends_htmls %>% 
+  mutate(script = map2(html_data, episode_title, parse_script)) %>% 
+  select(-html_data) %>% 
+  unnest(script)
+
+# Filter entries ----
+# Remove entries that aren't lines
+to_remove <- "Aired|Copyright|NOTE|Note|Directed|written by|Teleplay|Trascribed|Written|Story"
+to_replace <- "CLOSINGCREDITS|CLOSING CREDITS|GaryHalvorson|OPENINGTITLES|OpeningTitles|OPENING TITLES|Opening Titles"
+
+friends_scripts %<>% filter(!str_detect(speaker,
+                                        to_remove))
+
+friends_scripts %<>% mutate(speaker = str_replace_all(speaker,
+                                                      to_replace,
+                                                      ""))
+
+# Split out lines said by multiple people
+# Add line number to each episode
+friends_scripts %<>% 
+  group_by(season_num, episode_num) %>% 
+  mutate(line_num = row_number())
+
+and_lines <- friends_scripts %>% 
+  filter(str_detect(tolower(speaker), 
+                    " and "))
+
+split_lines <- and_lines %>% 
+  separate(speaker, 
+           c("speaker_1", "speaker_2"),
+           " and | AND ") %>% 
+  gather(speaker_num,
+         speaker,
+         -c(season_num,
+            episode_num,
+            episode_title,
+            line,
+            line_num)) %>% 
+  select(names(friends_scripts))
+
+# Add in split_lines to friends_scripts
+friends_scripts %<>% 
+  filter(!str_detect(tolower(speaker),
+                     " and ")) %>% 
+  rbind(split_lines) %>% 
+  arrange(season_num,
+          episode_num,
+          line_num)
+
+
+
+# Clean up meta data ----
+# Standardize all names
+# AMGER -> Amber
+# DRHORTON -> Dr. Horton
+# DR.HORTON -> Dr. Horton
+# r Zelner -> Mr. Zelner
+# Racel -> Rachel
+# Rache -> Rachel
+# C.H.E.E.S.E -> C.H.E.E.S.E.
+
+# To fix:
+# 907 speaker: Just kind of like
+# 212 speaker Mon.MONICA
+# 907 Speaker Myexperience
+
+View(friends_scripts)
+
+# What is the distribution of nchars over speaker (ensure no weird speakers)
+friends_scripts %>% 
+  transmute(nchar_speaker = nchar(speaker)) %>% 
+  ggplot(aes(x = nchar_speaker)) +
+  geom_histogram()
+
+friends_scripts %>% 
+  filter(nchar(speaker) > 15) %>% 
+  select(speaker) %>% 
+  arrange(desc(nchar(speaker)))
+
+
+
+friends_scripts %>% 
+  filter(season_num == 9,
+         episode_num == 11) %>% 
+  View
+
+
+# Save data ----
+saveRDS(friends_scripts,
+        "../../data/friends/friends_scripts.Rds")
+```
+
+```{r}
+friends_scripts %>% 
+  group_by(speaker) %>% 
+  count() %>% 
+  arrange(n)
+```
+
+
+```{r}
+friends_scripts %>% 
+  filter(str_detect(speaker, "CLOSING"))
+```
+
+
+```{r regex}
+"([MD][a-z]{1,2}\. )?[A-Z][a-z]+:"
+```
+
+
+```{r tidy text}
+# Tidy friends
+
+# Save tidy friends
+```
+
+
+```{r scraping}
+url <- "http://www.livesinabox.com/friends/season9/0922.html"
+html_data <- read_html(url)
+
+# Get episode details
+# title
+html_data %>% 
+  html_node("title") %>% 
+  html_text() %>% 
+  str_extract("(The|the) .*")
+
+# Season and episode number - parsed from url
+season_episode <- str_extract(url, "[0-9]{3,}")
+if(nchar(season_episode) == 3){
+  season <- substr(season_episode, 1, 1) %>% 
+    as.numeric
+  episode_num <- substr(season_episode, 2, 3) %>% 
+    as.numeric
+} else {
+  season <- substr(season_episode, 1, 2) %>% 
+    as.numeric
+  episode_num <- substr(season_episode, 3, 4) %>% 
+    as.numeric
+}
+
+season
+episode_num
+
+episode_num <- substr(season_episode)
+
+script <- html_nodes(html_data, "p") %>% html_text()
+
+# Identify dialogue lines
+script <- script[str_detect(script, "^[A-Z][a-z]+:")]
+
+# Remove new line characters
+script %<>% str_replace_all("\\n",
+                            " ")
+# Remove escaped quotes
+script %<>% str_replace_all('\\"',
+                           "")
+# Remove anything in parenthesis (not dialogue)
+script %<>% str_replace_all("\\(.*\\)",
+                           "")
+
+# Identify speaker for each line
+speaker <- str_extract(script,
+                       "^[A-Z]{1}[a-z]+:") %>% 
+  str_replace(":",
+              "")
+
+# Remove speaker from script
+script %<>% str_replace("^[A-Z]{1}[a-z]+:",
+                        "")
+
+# Create dataframe
+script_df <- data.table(speaker = speaker,
+                        line = script)
+
+# Create tidy data using tidytext
+tidy_script <- unnest_tokens(script_df,
+                             word,
+                             line)
+
+tidy_script
+```
+
+
+
